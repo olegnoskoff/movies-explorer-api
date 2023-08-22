@@ -17,6 +17,15 @@ routes.all('*', express.json());
 routes.post('/signup', createUserValidator, createUser);
 routes.post('/signin', loginValidator, login);
 
+// Выход пользователя
+routes.post('/signout', (req, res) => {
+  // Добавьте логику для удаления JWT из куки
+  res.clearCookie('jwt', { httpOnly: true, secure: true, sameSite: 'none' });
+
+  // Отправьте ответ клиенту
+  res.status(200).json({ message: 'Выход выполнен успешно' });
+});
+
 // Middleware аутентификации для всех следующих маршрутов
 routes.all('*', auth);
 
